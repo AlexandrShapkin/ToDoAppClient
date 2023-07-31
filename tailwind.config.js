@@ -3,7 +3,12 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "charleston-green": "#282828",
+        "dark-charcoal": "#32302F",
+      },
+    },
   },
   plugins: [],
 }
