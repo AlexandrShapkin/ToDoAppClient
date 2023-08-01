@@ -7,6 +7,7 @@ export default {
       colors: {
         "charleston-green": "#282828",
         "dark-charcoal": "#32302F",
+        "granite-gray": "#666655"
       },
     },
   },
