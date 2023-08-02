@@ -1,13 +1,12 @@
 import "./App.css";
 import Header from "./components/Header/Header";
+import MainContent from "./components/MainContent/MainContent";
 
 function App() {
   return (
     <>
       <Header />
-      <main className="m-auto flex border-2 w-[80vw] md:w-[70vw]">
-      {/* in dev */}
-      </main>
+      <MainContent />
     </>
   );
 }

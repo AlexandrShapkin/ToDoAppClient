@@ -27,7 +27,7 @@ function SideMenu({ onClick, showMenu }: Props) {
             <MenuButton onClick={onClick} />
           </HeaderContainer>
           <div className="h-[70%] overflow-auto">
-            <ul className="h-[70%] m-[2rem] min-w-[18rem] divide-y devide-[#666655] leading-10 text-white font-bold text-xl">
+            <ul className="h-[70%] m-[2rem] min-w-[18rem] divide-y devide-granite-gray leading-10 text-white font-bold text-xl">
               <li>
                 <button className="">Добавить задачу</button>
               </li>
