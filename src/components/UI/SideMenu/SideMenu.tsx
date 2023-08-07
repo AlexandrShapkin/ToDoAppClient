@@ -1,8 +1,7 @@
 import HeaderContainer from "../HeaderContainer/HeaderContainer";
 import Logo from "../Logo/Logo";
 import MenuButton from "../MenuButton/MenuButton";
-
-import { PiUserCircle } from "react-icons/pi";
+import UserLabel from "../UserLabel/UserLabel";
 
 type Props = {
   onClick?: () => void;
@@ -40,12 +39,7 @@ function SideMenu({ onClick, showMenu }: Props) {
             </ul>
           </div>
         </div>
-        <div className="flex overflow-hidden m-[2rem] min-w-[18rem] h-[3rem]">
-          <div className="my-auto flex text-white font-bold">
-            <PiUserCircle className="text-3xl md:text-4xl" />
-            <p className="mx-2 text-xl md:text-2xl">User...</p>
-          </div>
-        </div>
+        <UserLabel />
       </nav>
     </div>
   );
