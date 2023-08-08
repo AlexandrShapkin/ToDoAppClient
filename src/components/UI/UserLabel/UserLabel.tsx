@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PiUserCircle } from "react-icons/pi";
 
-import LoginModal from "../../LoginModal/LoginModal";
+import LoginModal from "../../AuthModal/AuthModal";
 
 
 function UserLabel() {

@@ -12,10 +12,21 @@ export async function login(url: string, userDataDto: UserDataDto) {
   });
 }
 
+export async function register(url: string, userDataDto: UserDataDto) {
+  return await Fetcher(`${url}/registration`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userDataDto),
+  });
+}
 
 
 const UserService = {
   login: login,
+  register: register
 };
 
 export default UserService;
