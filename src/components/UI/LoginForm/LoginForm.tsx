@@ -3,6 +3,8 @@ import { useState, FormEvent } from "react";
 import UserController from "../../../controllers/UserController";
 import UserDataDto from "../../../dtos/UserDataDto";
 
+import { getToken } from "../../../service/TokenService";
+
 type Props = {
   changeToRegister: () => void;
   hideModal: () => void;
@@ -25,7 +27,7 @@ function LoginForm({changeToRegister, hideModal}: Props) {
       setErrorMessage(error.message);
       return;
     }
-    if (localStorage.getItem("accessToken")) {
+    if (getToken()) {
       hideModal();
     }
   };

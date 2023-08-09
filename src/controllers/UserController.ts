@@ -2,6 +2,8 @@ import UserDataDto from "../dtos/UserDataDto";
 import ApiError from "../dtos/ApiError";
 import UserService from "../service/UserService";
 
+import { saveToken } from "../service/TokenService";
+
 const URL = "http://localhost:3000/api";
 
 export async function login({username, password}: UserDataDto): Promise<null|ApiError> {
@@ -10,7 +12,7 @@ export async function login({username, password}: UserDataDto): Promise<null|Api
     return response;
   }
   if (response.accessToken) {
-    localStorage.setItem("accessToken", response.accessToken);
+    saveToken(response.accessToken);
   }
   return null;
 }
@@ -20,8 +22,9 @@ export async function register({username, password}: UserDataDto): Promise<null|
   if (response.message) {
     return response;
   }
+
   if (response.accessToken) {
-    localStorage.setItem("accessToken", response.accessToken);
+    saveToken(response.accessToken);
   }
   return null;
 }
