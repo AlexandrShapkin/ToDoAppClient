@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import {GrClose} from "react-icons/gr";
+import { GrClose } from "react-icons/gr";
 
 type Props = {
   showModal?: boolean;
@@ -17,19 +17,18 @@ function ModalContainer({ showModal, hideModal, children, title }: Props) {
       onClick={hideModal}
     >
       <div className="relative w-auto my-6 mx-auto max-w-3xl">
-        {/*content*/}
         <div
           className="border-0 rounded-lg drop-shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex w-full h-[2rem] justify-between">
             <h1 className="h-[2rem] text-[1.5rem] ml-[0.5rem]">{title}</h1>
-            <button className="w-[2rem] h-[2rem]" onClick={hideModal}><GrClose className="text-[1.5rem] m-auto"/></button>
+            <button className="w-[2rem] h-[2rem]" onClick={hideModal}>
+              <GrClose className="text-[1.5rem] m-auto" />
+            </button>
           </div>
-          <hr className="mt-[0.5rem]"/>
-          <div className="flex p-[1.5rem]">
-          {children}
-          </div>
+          <hr className="mt-[0.5rem]" />
+          <div className="flex p-[1.5rem]">{children}</div>
         </div>
       </div>
     </div>
