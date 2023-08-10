@@ -3,6 +3,12 @@ import { useEffect, useState, useMemo } from "react";
 import { GrClose } from "react-icons/gr";
 import { FiXCircle, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 
+export type ToastsContextValue = {
+  toasts: ToastData[];
+  showToast: (title: string, content: string, toastType: "error" | "alert" | "ok" | null) => void;
+  removeToast: (id: number) => void;
+};
+
 export type ToastData = {
   id: number;
   title: string;
