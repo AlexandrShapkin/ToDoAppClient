@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { ToastData, ToastsContextValue } from "../components/UI/Toast/Toast";
 
-function useToasts(): [ToastsContextValue] {
+function useToasts(autoCloseDurationInit: number = 5, autoCloseInit: boolean = true): [ToastsContextValue] {
   const [toasts, setToasts] = useState<Array<ToastData>>([]);
-  const [autoClose] = useState(true);
-  const [autoCloseDuration] = useState(10);
+  const [autoClose] = useState(autoCloseInit);
+  const [autoCloseDuration] = useState(autoCloseDurationInit);
 
   const showToast = (title: string, content: string, toastType: "error" | "alert" | "ok" | null = null) => {
     const newToast: ToastData = {
