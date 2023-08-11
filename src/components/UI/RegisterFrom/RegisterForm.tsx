@@ -1,9 +1,10 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useContext } from "react";
 
 import UserController from "../../../controllers/UserController";
 import UserDataDto from "../../../dtos/UserDataDto";
 
 import { getToken } from "../../../service/TokenService";
+import { ToastsContext } from "../../../App";
 
 type Props = {
   changeToLogin: () => void;
@@ -11,17 +12,17 @@ type Props = {
 };
 
 function RegisterForm({ changeToLogin, hideModal }: Props) {
+  const toastsContext = useContext(ToastsContext);
+
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [rpassword, setRpassword] = useState("");
-
-  const [ errorMessage, setErrorMessage ] = useState("");
 
   const loginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password != rpassword) {
-      setErrorMessage("Пароли не совпадают");
+      toastsContext?.showToast("Ошибка регистрации", "Пароли не совпадают", "error");
       return;
     }
 
@@ -31,17 +32,17 @@ function RegisterForm({ changeToLogin, hideModal }: Props) {
     };
     const response = await UserController.register(loginData);
     if (response) {
-      setErrorMessage(response.message);
+      toastsContext?.showToast("Ошибка регистрации", response.message, "error");
       return;
     }
     if (getToken()) {
+      toastsContext?.showToast("Успешная регистрации", "Вы зарегистрированы", "ok");
       hideModal();
     } 
   };
 
   return (
     <form className="flex flex-col space-y-[1.5rem]" onSubmit={loginHandler}>
-      <label className="m-auto text-red-600">{errorMessage}</label>
       <input
         className="h-[2rem] border-inherit border indent-1"
         placeholder="Логин"
