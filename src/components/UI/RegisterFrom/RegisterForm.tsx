@@ -4,7 +4,8 @@ import UserController from "../../../controllers/UserController";
 import UserDataDto from "../../../dtos/UserDataDto";
 
 import { getToken } from "../../../service/TokenService";
-import { ToastsContext } from "../../../App";
+import { ToastsContext, UserContext } from "../../../App";
+import UserDto from "../../../dtos/UserDto";
 
 type Props = {
   changeToLogin: () => void;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 function RegisterForm({ changeToLogin, hideModal }: Props) {
+  const userContext = useContext(UserContext);
   const toastsContext = useContext(ToastsContext);
 
   const [login, setLogin] = useState("");
@@ -22,7 +24,11 @@ function RegisterForm({ changeToLogin, hideModal }: Props) {
     e.preventDefault();
 
     if (password != rpassword) {
-      toastsContext?.showToast("Ошибка регистрации", "Пароли не совпадают", "error");
+      toastsContext?.showToast(
+        "Ошибка регистрации",
+        "Пароли не совпадают",
+        "error"
+      );
       return;
     }
 
@@ -30,15 +36,24 @@ function RegisterForm({ changeToLogin, hideModal }: Props) {
       username: login,
       password: password,
     };
-    const response = await UserController.register(loginData);
-    if (response) {
-      toastsContext?.showToast("Ошибка регистрации", response.message, "error");
+    let userData: UserDto;
+    try {
+      userData = await UserController.register(loginData);
+    } catch (error) {
+      if (error instanceof Error) {
+        toastsContext?.showToast("Ошибка регистрации", error.message, "error");
+      }
       return;
     }
     if (getToken()) {
-      toastsContext?.showToast("Успешная регистрации", "Вы зарегистрированы", "ok");
+      userContext?.setUser(userData);
+      toastsContext?.showToast(
+        "Успешная регистрации",
+        "Вы зарегистрированы",
+        "ok"
+      );
       hideModal();
-    } 
+    }
   };
 
   return (

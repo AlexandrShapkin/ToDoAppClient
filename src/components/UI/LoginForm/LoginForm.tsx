@@ -4,15 +4,17 @@ import UserController from "../../../controllers/UserController";
 import UserDataDto from "../../../dtos/UserDataDto";
 
 import { getToken } from "../../../service/TokenService";
-import { ToastsContext } from "../../../App";
+import { ToastsContext, UserContext } from "../../../App";
+import UserDto from "../../../dtos/UserDto";
 
 type Props = {
   changeToRegister: () => void;
   hideModal: () => void;
 };
 
-function LoginForm({changeToRegister, hideModal}: Props) {
+function LoginForm({ changeToRegister, hideModal }: Props) {
   const toastsContext = useContext(ToastsContext);
+  const userContext = useContext(UserContext);
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -23,13 +25,22 @@ function LoginForm({changeToRegister, hideModal}: Props) {
       username: login,
       password: password,
     };
-    const error = await UserController.login(loginData);
-    if (error) {
-      toastsContext?.showToast("Ошибка авторизации", error.message, "error");
+    let userData: UserDto;
+    try {
+      userData = await UserController.login(loginData);
+    } catch (error) {
+      if (error instanceof Error) {
+        toastsContext?.showToast("Ошибка авторизации", error.message, "error");
+      }
       return;
     }
     if (getToken()) {
-      toastsContext?.showToast("Успешная авторизция", "Вы успешно вошли!", "ok");
+      userContext?.setUser(userData);
+      toastsContext?.showToast(
+        "Успешная авторизция",
+        "Вы успешно вошли!",
+        "ok"
+      );
       hideModal();
     }
   };

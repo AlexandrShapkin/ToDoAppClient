@@ -10,11 +10,11 @@ type Props = {
 };
 
 function AuthModal({ showModal, hideModal }: Props) {
-  const [ mode, setMode ] = useState(true);
+  const [mode, setMode] = useState(true);
 
   const changeMode = () => {
     setMode(!mode);
-  }
+  };
 
   return (
     <ModalContainer
@@ -22,7 +22,11 @@ function AuthModal({ showModal, hideModal }: Props) {
       hideModal={hideModal}
       title={mode ? "Авторизация" : "Регистрация"}
     >
-      {mode ? <LoginForm hideModal={hideModal} changeToRegister={changeMode} /> : <RegisterForm hideModal={hideModal} changeToLogin={changeMode} />}
+      {mode ? (
+        <LoginForm hideModal={hideModal} changeToRegister={changeMode} />
+      ) : (
+        <RegisterForm hideModal={hideModal} changeToLogin={changeMode} />
+      )}
     </ModalContainer>
   );
 }

@@ -6,21 +6,27 @@ import MainContent from "./components/MainContent/MainContent";
 import { ToastsContextValue } from "./components/UI//Toast/Toast";
 import ToastContainer from "./components/ToastsContainer/ToastsContainer";
 import useToasts from "./hooks/useToasts";
+import useUser from "./hooks/useUser";
+
+import UserContextValue from "./types/UserContextValue";
 
 export const ToastsContext = createContext<ToastsContextValue | null>(null);
 
+export const UserContext = createContext<UserContextValue | null>(null);
+
 function App() {
-  const [ toastsContextValue ] = useToasts();
+  const [userContextValue] = useUser();
+  const [toastsContextValue] = useToasts();
 
   return (
     <>
-      <ToastsContext.Provider
-        value={toastsContextValue}
-      >
-        <Header />
-        <MainContent />
-        <ToastContainer />
-      </ToastsContext.Provider>
+      <UserContext.Provider value={userContextValue}>
+        <ToastsContext.Provider value={toastsContextValue}>
+          <Header />
+          <MainContent />
+          <ToastContainer />
+        </ToastsContext.Provider>
+      </UserContext.Provider>
     </>
   );
 }

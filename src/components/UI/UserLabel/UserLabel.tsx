@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { PiUserCircle } from "react-icons/pi";
 
 import LoginModal from "../../AuthModal/AuthModal";
+import { UserContext } from "../../../App";
 
 
 function UserLabel() {
+  const userContext = useContext(UserContext);
+
   const [showModal, setShowModal] = useState(false);
   const onClickHandler = () => {
     setShowModal(!showModal);
@@ -18,7 +21,9 @@ function UserLabel() {
       >
         <div className="my-auto flex text-white font-bold">
           <PiUserCircle className="text-3xl md:text-4xl" />
-          <p className="mx-2 text-xl md:text-2xl">User...</p>
+          <div className="mx-2 text-xl md:text-2xl">
+            {userContext?.username ? <p>{userContext.username}</p> : <p>Авторизация</p>}
+          </div>
         </div>
       </div>
       <LoginModal showModal={showModal} hideModal={onClickHandler} />
