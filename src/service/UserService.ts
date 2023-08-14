@@ -23,10 +23,26 @@ export async function register(url: string, userDataDto: UserDataDto) {
   });
 }
 
+export async function logout(url: string) {
+  return await Fetcher(`${url}/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
+export async function refresh(url: string) {
+  return await Fetcher(`${url}/refresh`, {
+    method: "POST",
+    credentials: "include"
+  })
+}
+
 
 const UserService = {
   login: login,
-  register: register
+  register: register,
+  logout: logout,
+  refresh: refresh
 };
 
 export default UserService;
