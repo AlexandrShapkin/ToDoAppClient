@@ -19,12 +19,16 @@ function App() {
   const [userContextValue] = useUser();
   const [toastsContextValue] = useToasts();
 
-  useEffect(() => {
+  const refresh = async () => {
     try {
-      UserController.refresh(userContextValue?.setUser);
+      await UserController.refresh(userContextValue?.setUser);
     } catch (error) {
       return;
     }
+  }
+
+  useEffect(() => {
+    refresh();
   }, []);
 
   return (

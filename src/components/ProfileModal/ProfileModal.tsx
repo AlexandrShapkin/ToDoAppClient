@@ -25,6 +25,7 @@ function ProfileModal({ showModal, hideModal }: Props) {
     }
     userContext?.setUsername("");
     userContext?.setUserId("");
+    hideModal();
   };
 
   return (
