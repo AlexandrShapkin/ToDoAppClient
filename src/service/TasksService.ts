@@ -1,15 +1,28 @@
 import Fetcher from "../utils/Fetcher";
+import Task from "../utils/Task/Task";
 
 export async function getTasks(url: string, token: string) {
   return Fetcher(`${url}/tasks`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    }
-  })
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function updateTask(url: string, token: string, task: Task) {
+  return Fetcher(`${url}/tasks/task`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(task),
+  });
 }
 
 export default {
-  getTasks: getTasks
-}
+  getTasks: getTasks,
+  updateTask: updateTask,
+};

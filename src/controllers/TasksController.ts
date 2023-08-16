@@ -1,5 +1,6 @@
 import TasksService from "../service/TasksService";
 import TokenService from "../service/TokenService";
+import Task from "../utils/Task/Task";
 
 const URL = "http://localhost:3000/api";
 
@@ -17,6 +18,21 @@ export async function getTasks() {
   return response;
 }
 
+export async function updateTask(task: Task) {
+  const token = TokenService.getToken();
+  if (!token) {
+    return task;
+  }
+  const response = await TasksService.updateTask(URL, token, task);
+  if (response.message) {
+    console.log(response);
+    throw Error(response.message);
+  }
+
+  return response;
+}
+
 export default {
-  getTasks: getTasks
+  getTasks: getTasks,
+  updateTask: updateTask
 }
