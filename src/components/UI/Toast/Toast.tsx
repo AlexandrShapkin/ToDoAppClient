@@ -43,9 +43,9 @@ function Toast({ data, closeToast }: Props) {
   return (
     <div
       role="alert"
-      className="h-[6rem] w-full md:w-[25rem] mx-auto border-0 rounded-lg drop-shadow bg-white"
+      className="min-h-[6rem] w-full md:w-[25rem] mx-auto border-0 rounded-lg drop-shadow bg-white"
     >
-      <div className="flex flex-col h-[5rem] w-full md:w-[24rem] m-auto">
+      <div className="flex flex-col min-h-[5rem] w-full md:w-[24rem] m-auto">
         <div className="flex flex-row justify-between">
           <h2 className={`flex ml-[0.5rem] text-[1.5rem] ${data.toastType ? ToastColor[data.toastType] : ""}`}>
             {data.toastType ? ToastIcon[data.toastType] : null}
@@ -60,7 +60,7 @@ function Toast({ data, closeToast }: Props) {
           max={closeDurationMs}
           value={progress}
         />
-        <p className="mt-[0.5rem] ml-[0.5rem]">{data.content}</p>
+        <p className="my-[0.5rem] ml-[0.5rem]">{data.content}</p>
       </div>
     </div>
   );

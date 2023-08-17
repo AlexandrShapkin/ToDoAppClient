@@ -32,7 +32,22 @@ export async function updateTask(task: Task) {
   return response;
 }
 
+export async function addTask(task: Task) {
+  const token = TokenService.getToken();
+  if (!token) {
+    throw Error("Вы не авторизорованы!");
+  }
+  const response = await TasksService.addTask(URL, token, task);
+  if (response.message) {
+    console.log(response);
+    throw Error(response.message);
+  }
+
+  return response;
+}
+
 export default {
   getTasks: getTasks,
   updateTask: updateTask,
+  addTask: addTask,
 };

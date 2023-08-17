@@ -85,11 +85,24 @@ function App() {
     setTasks(updatedTasks);
   };
 
+  const addTask = async (task: Task) => {
+    let newTask: Task;
+
+    try {
+      newTask = await TasksController.addTask(task);
+      setTasks([...tasks, newTask]);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw Error(error.message);
+      }
+    }
+  }
+
   return (
     <>
       <UserContext.Provider value={userContextValue}>
         <ToastsContext.Provider value={toastsContextValue}>
-          <TasksContext.Provider value={{tasks: tasks, fetchTasks: fetchTasks, setTaskDone: setTaskDone}}>
+          <TasksContext.Provider value={{tasks: tasks, fetchTasks: fetchTasks, setTaskDone: setTaskDone, addTask: addTask}}>
             <Header />
             <MainContent />
             <ToastContainer />

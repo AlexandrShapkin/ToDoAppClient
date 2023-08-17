@@ -22,7 +22,19 @@ export async function updateTask(url: string, token: string, task: Task) {
   });
 }
 
+export async function addTask(url: string, token: string, task: Task) {
+  return Fetcher(`${url}/tasks/task`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(task),
+  });
+}
+
 export default {
   getTasks: getTasks,
   updateTask: updateTask,
+  addTask: addTask
 };
