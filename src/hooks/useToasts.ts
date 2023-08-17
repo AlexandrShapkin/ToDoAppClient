@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ToastData, ToastsContextValue } from "../components/UI/Toast/Toast";
+import ToastsContextValue from "../types/ToastsContextValue";
+import ToastData from "../types/ToastData";
 
 function useToasts(autoCloseDurationInit: number = 5, autoCloseInit: boolean = true): [ToastsContextValue] {
   const [toasts, setToasts] = useState<Array<ToastData>>([]);
