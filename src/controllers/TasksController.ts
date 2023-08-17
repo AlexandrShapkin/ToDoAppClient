@@ -1,6 +1,6 @@
 import TasksService from "../service/TasksService";
 import TokenService from "../service/TokenService";
-import Task from "../utils/Task/Task";
+import Task from "../types/Task";
 
 const URL = "http://localhost:3000/api";
 
@@ -14,7 +14,7 @@ export async function getTasks() {
     console.log(response);
     throw Error(response.message);
   }
-  
+
   return response;
 }
 
@@ -34,5 +34,5 @@ export async function updateTask(task: Task) {
 
 export default {
   getTasks: getTasks,
-  updateTask: updateTask
-}
+  updateTask: updateTask,
+};

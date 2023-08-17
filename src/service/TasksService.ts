@@ -1,5 +1,5 @@
 import Fetcher from "../utils/Fetcher";
-import Task from "../utils/Task/Task";
+import Task from "../types/Task";
 
 export async function getTasks(url: string, token: string) {
   return Fetcher(`${url}/tasks`, {

@@ -1,4 +1,4 @@
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import MainContent from "./components/MainContent/MainContent";
@@ -11,9 +11,15 @@ import useUser from "./hooks/useUser";
 import UserContextValue from "./types/UserContextValue";
 import UserController from "./controllers/UserController";
 
+import TasksContextValue from "./types/TasksContextValue";
+import TasksController from "./controllers/TasksController";
+import Task from "./types/Task";
+
 export const ToastsContext = createContext<ToastsContextValue | null>(null);
 
 export const UserContext = createContext<UserContextValue | null>(null);
+
+export const TasksContext = createContext<TasksContextValue | null>(null);
 
 function App() {
   const [userContextValue] = useUser();
@@ -25,19 +31,69 @@ function App() {
     } catch (error) {
       return;
     }
-  }
+  };
 
   useEffect(() => {
     refresh();
   }, []);
 
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const fetchTasks = async () => {
+    if (userContextValue?.username == "") {
+      setTasks([]);
+      return;
+    }
+    let resTasks: Task[];
+    try {
+      resTasks = await TasksController.getTasks();
+      setTasks(resTasks);
+    } catch (error) {
+      if (error instanceof Error) {
+        setTasks([]);
+        return;
+      }
+    }
+  };
+
+  const setTaskDone = async (task: Task) => {
+    let updatedTask: Task;
+
+    try {
+      updatedTask = await TasksController.updateTask({
+        ...task,
+        isDone: !task.isDone,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        return;
+      }
+    }
+
+    const updatedTasks = tasks?.map((task) => {
+      if (task._id !== updatedTask._id) {
+        return task;
+      }
+
+      return {
+        ...task,
+        ...updatedTask,
+      };
+    });
+
+    setTasks(updatedTasks);
+  };
+
   return (
     <>
       <UserContext.Provider value={userContextValue}>
         <ToastsContext.Provider value={toastsContextValue}>
-          <Header />
-          <MainContent />
-          <ToastContainer />
+          <TasksContext.Provider value={{tasks: tasks, fetchTasks: fetchTasks, setTaskDone: setTaskDone}}>
+            <Header />
+            <MainContent />
+            <ToastContainer />
+          </TasksContext.Provider>
         </ToastsContext.Provider>
       </UserContext.Provider>
     </>

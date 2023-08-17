@@ -1,4 +1,4 @@
-export default interface Task {
+type Task = {
   _id: string;
   user: string;
   header: string;
@@ -9,3 +9,5 @@ export default interface Task {
   deleteOnCompletion: boolean;
   group: string[];
 }
+
+export default Task;
