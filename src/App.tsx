@@ -3,7 +3,7 @@ import "./App.css";
 import Header from "./components/Header/Header";
 import MainContent from "./components/MainContent/MainContent";
 
-import { ToastsContextValue } from "./components/UI//Toast/Toast";
+import ToastsContextValue from "./types/ToastsContextValue";
 import ToastContainer from "./components/ToastsContainer/ToastsContainer";
 import useToasts from "./hooks/useToasts";
 import useUser from "./hooks/useUser";
