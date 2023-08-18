@@ -50,10 +50,10 @@ function SideMenu({ onClick, showMenu }: Props) {
               </ul>
             </div>
           </div>
+          <AddTaskModal showModal={showModal} hideModal={showModalHandler} />
           <UserLabel />
         </nav>
       </div>
-      <AddTaskModal showModal={showModal} hideModal={showModalHandler} />
     </>
   );
 }

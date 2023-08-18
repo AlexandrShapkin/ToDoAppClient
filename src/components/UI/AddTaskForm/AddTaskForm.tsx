@@ -42,7 +42,7 @@ function AddTaskFrom({ hideModal }: Props) {
         }}
       />
       <textarea
-        className="border-inherit border indent-1"
+        className="w-[20rem] md:w-[25rem] border-inherit border"
         cols={60}
         rows={10}
         placeholder="Описание заметки"
