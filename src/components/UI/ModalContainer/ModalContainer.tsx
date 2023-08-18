@@ -23,8 +23,8 @@ function ModalContainer({ showModal, hideModal, children, title }: Props) {
         >
           <div className="flex w-full h-[2rem] justify-between">
             <h1 className="h-[2rem] text-[1.5rem] ml-[0.5rem]">{title}</h1>
-            <button className="w-[2rem] h-[2rem]" onClick={hideModal}>
-              <GrClose className="text-[1.5rem] m-auto" />
+            <button className="flex w-[2rem] h-[2rem]" onClick={hideModal}>
+              <GrClose className="text-[1.5rem] mt-auto" />
             </button>
           </div>
           <hr className="mt-[0.5rem]" />
