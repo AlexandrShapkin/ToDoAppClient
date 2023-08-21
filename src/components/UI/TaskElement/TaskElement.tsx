@@ -27,11 +27,11 @@ function TaskElement({ taskData, setTaskDone }: Props) {
         />
       </div>
       <div
-        className="ml-[1rem] w-full h-[4rem] md:w-full md:h-[7rem] cursor-pointer"
+        className="ml-[1rem] max-w-[80%] h-[4rem] md:w-[23rem] md:h-[7rem] cursor-pointer"
         onClick={changeTaskModalState}
       >
-        <h1 className="text-[1rem] md:text-2xl font-bold">{taskData.header}</h1>
-        <hr className="w-[90%]" />
+        <h1 className="text-[1rem] md:text-2xl font-bold truncate">{taskData.header}</h1>
+        <hr className="w-[80%]" />
         <p className="text-[0.5rem] md:text-sm h-[1.5rem] md:h-[3.5rem] hyphens-auto overflow-hidden">
           {taskData.content}
         </p>
