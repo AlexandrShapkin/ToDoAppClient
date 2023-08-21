@@ -1,5 +1,8 @@
 import { MdAddTask, MdTaskAlt } from "react-icons/md";
 import Task from "../../../types/Task";
+import { useState } from "react";
+import TaskModal from "../../TaskModal/TaskModal";
+import TimeConverter from "../../../utils/TimeConverter";
 
 type Props = {
   taskData: Task;
@@ -7,17 +10,10 @@ type Props = {
 };
 
 function TaskElement({ taskData, setTaskDone }: Props) {
-  const convetDate = (date: Date) => {
-    const numDate = Date.parse(date.toString());
-    const dDate = new Date(numDate);
+  const [showTaskModal, setShowTaskModal] = useState(false);
 
-    return dDate.toLocaleString("ru-Ru", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const changeTaskModalState = () => {
+    setShowTaskModal(!showTaskModal);
   };
 
   return (
@@ -30,10 +26,11 @@ function TaskElement({ taskData, setTaskDone }: Props) {
           className="w-[2rem] md:w-[2rem] transition ease-in-out delay-150 hover:scale-110"
         />
       </div>
-      <div className="ml-[1rem] w-full h-[4rem] md:w-full md:h-[7rem]">
-        <h1 className="text-[1rem] md:text-2xl font-bold truncate">
-          {taskData.header}
-        </h1>
+      <div
+        className="ml-[1rem] w-full h-[4rem] md:w-full md:h-[7rem] cursor-pointer"
+        onClick={changeTaskModalState}
+      >
+        <h1 className="text-[1rem] md:text-2xl font-bold">{taskData.header}</h1>
         <hr className="w-[90%]" />
         <p className="text-[0.5rem] md:text-sm h-[1.5rem] md:h-[3.5rem] hyphens-auto overflow-hidden">
           {taskData.content}
@@ -43,7 +40,7 @@ function TaskElement({ taskData, setTaskDone }: Props) {
             <MdAddTask className="md:text-[1rem] m-auto" />
             <p>
               {taskData.addTime
-                ? convetDate(taskData.addTime)
+                ? TimeConverter(taskData.addTime)
                 : "~~.~~.~~, ~~:~~"}
             </p>
           </div>
@@ -51,11 +48,12 @@ function TaskElement({ taskData, setTaskDone }: Props) {
             <MdTaskAlt className="md:text-[1rem] m-auto" />
             <p>
               {taskData.doneTime
-                ? convetDate(taskData.doneTime)
+                ? TimeConverter(taskData.doneTime)
                 : "~~.~~.~~, ~~:~~"}
             </p>
           </div>
         </div>
+        <TaskModal showModal={showTaskModal} hideModal={changeTaskModalState} taskData={taskData} setTaskDone={setTaskDone} />
       </div>
     </li>
   );
