@@ -38,7 +38,7 @@ function TaskModal({ taskData, setTaskDone, showModal, hideModal }: Props) {
         <hr />
         <div className="mt-[1rem] max-h-full">
           <h1 className="font-bold">{taskData.header}</h1>
-          <p className="mt-[0.5rem]">{taskData.content}</p>
+          <p className="mt-[0.5rem] md:max-w-[30rem]">{taskData.content}</p>
           <hr className="my-[1rem]" />
           <p className="">
             {taskData.group?.length != 0
