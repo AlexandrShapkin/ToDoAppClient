@@ -32,6 +32,20 @@ export async function updateTask(task: Task) {
   return response;
 }
 
+export async function deleteTask(task: Task) {
+  const token = TokenService.getToken();
+  if (!token) {
+    return task;
+  }
+  const response = await TasksService.updateTask(URL, token, task);
+  if (response.message) {
+    console.log(response);
+    throw Error(response.message);
+  }
+
+  return response;
+}
+
 export async function addTask(task: Task) {
   const token = TokenService.getToken();
   if (!token) {
@@ -50,4 +64,5 @@ export default {
   getTasks: getTasks,
   updateTask: updateTask,
   addTask: addTask,
+  deleteTask: deleteTask,
 };

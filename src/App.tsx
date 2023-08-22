@@ -37,7 +37,6 @@ function App() {
     refresh();
   }, []);
 
-
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const fetchTasks = async () => {
@@ -67,7 +66,48 @@ function App() {
       });
     } catch (error) {
       if (error instanceof Error) {
-        return;
+        throw Error(error.message);
+      }
+    }
+
+    const updatedTasks = tasks?.map((task) => {
+      if (task._id !== updatedTask._id) {
+        return task;
+      }
+
+      return {
+        ...task,
+        ...updatedTask,
+      };
+    });
+
+    setTasks(updatedTasks);
+  };
+
+  const deleteTask = async (task: Task) => {
+    let deletedTask: Task;
+
+    try {
+      deletedTask = await TasksController.deleteTask(task);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw Error(error.message);
+      }
+    }
+
+    const newTasks = tasks?.filter((task) => task._id != deletedTask._id);
+
+    setTasks(newTasks);
+  };
+
+  const updateTask = async (task: Task) => {
+    let updatedTask: Task;
+
+    try {
+      updatedTask = await TasksController.updateTask(task);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw Error(error.message);
       }
     }
 
@@ -96,13 +136,22 @@ function App() {
         throw Error(error.message);
       }
     }
-  }
+  };
 
   return (
     <>
       <UserContext.Provider value={userContextValue}>
         <ToastsContext.Provider value={toastsContextValue}>
-          <TasksContext.Provider value={{tasks: tasks, fetchTasks: fetchTasks, setTaskDone: setTaskDone, addTask: addTask}}>
+          <TasksContext.Provider
+            value={{
+              tasks: tasks,
+              fetchTasks: fetchTasks,
+              setTaskDone: setTaskDone,
+              addTask: addTask,
+              deleteTask: deleteTask,
+              updateTask: updateTask,
+            }}
+          >
             <Header />
             <MainContent />
             <ToastContainer />

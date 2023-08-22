@@ -16,7 +16,7 @@ function TasksList() {
   return (
     <ul className="divide-y devide-granite-gray space-y-[1rem]">
       {tasksContext?.tasks?.map((task) => (
-        <TaskElement taskData={task} setTaskDone={tasksContext?.setTaskDone} key={task._id} />
+        <TaskElement taskData={task} setTaskDone={tasksContext?.setTaskDone} deleteTask={tasksContext?.deleteTask} updateTask={tasksContext?.updateTask} key={task._id} />
       ))}
     </ul>
   );

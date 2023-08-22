@@ -22,6 +22,17 @@ export async function updateTask(url: string, token: string, task: Task) {
   });
 }
 
+export async function deleteTask(url: string, token: string, task: Task) {
+  return Fetcher(`${url}/tasks/task`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(task),
+  });
+}
+
 export async function addTask(url: string, token: string, task: Task) {
   return Fetcher(`${url}/tasks/task`, {
     method: "POST",
@@ -36,5 +47,6 @@ export async function addTask(url: string, token: string, task: Task) {
 export default {
   getTasks: getTasks,
   updateTask: updateTask,
-  addTask: addTask
+  addTask: addTask,
+  deleteTask: deleteTask,
 };

@@ -1,17 +1,32 @@
+import { useState } from "react";
 import Task from "../../types/Task";
-import TimeConverter from "../../utils/TimeConverter";
 import ModalContainer from "../UI/ModalContainer/ModalContainer";
-
-import {AiFillEdit, AiFillDelete} from "react-icons/ai";
+import TaskShowForm from "../UI/TaskShowForm/TaskShowForm";
+import TaskUpdateForm from "../UI/TaskUpdateForm/TaskUpdateForm";
 
 type Props = {
   taskData: Task;
   setTaskDone(task: Task): Promise<void>;
+  deleteTask(task: Task): Promise<void>;
+  updateTask(task: Task): Promise<void>;
   showModal: boolean;
   hideModal: () => void;
 };
 
-function TaskModal({ taskData, setTaskDone, showModal, hideModal }: Props) {
+function TaskModal({
+  taskData,
+  setTaskDone,
+  deleteTask,
+  updateTask,
+  showModal,
+  hideModal,
+}: Props) {
+  const [mode, setMode] = useState(true);
+
+  const changeMode = () => {
+    setMode(!mode);
+  };
+
   return (
     <ModalContainer
       showModal={showModal}
@@ -19,52 +34,21 @@ function TaskModal({ taskData, setTaskDone, showModal, hideModal }: Props) {
       title={taskData.header}
       titleWidth="max-w-[20rem] md:w-full"
     >
-      <div className="flex flex-col">
-        <div className="flex flex-row justify-between mb-[0.5rem]">
-          <div className="flex flex-row space-x-[0.5rem]">
-          <input
-            checked={taskData.isDone}
-            onChange={() => setTaskDone(taskData)}
-            type="checkbox"
-            className="w-[1.5rem] md:w-[2rem] transition ease-in-out delay-150 hover:scale-110"
-          />
-          <p className="my-auto">{taskData.isDone ? "Выполнено" : "Не выполнено"}</p>
-          </div>
-          <div className="flex flex-row text-[1.5rem] md:text-[2rem] space-x-[0.5rem]">
-            <button><AiFillEdit /></button>
-            <button><AiFillDelete /></button>
-          </div>
-        </div>
-        <hr />
-        <div className="mt-[1rem] max-h-full">
-          <h1 className="font-bold">{taskData.header}</h1>
-          <p className="mt-[0.5rem] md:max-w-[30rem]">{taskData.content}</p>
-          <hr className="my-[1rem]" />
-          <p className="">
-            {taskData.group?.length != 0
-              ? `Группы: ${taskData.group?.join("; ")}`
-              : null}
-          </p>
-          <div className="flex flex-col mt-[1rem] text-sm">
-            <p>
-              Время добавления:{" "}
-              {taskData.addTime
-                ? TimeConverter(taskData.addTime)
-                : "~~.~~.~~, ~~:~~"}
-            </p>
-            <p>
-              Время выполнения:{" "}
-              {taskData.doneTime
-                ? TimeConverter(taskData.doneTime)
-                : "~~.~~.~~, ~~:~~"}
-            </p>
-            <p>
-              Удалять после выполнения:{" "}
-              {taskData.deleteOnCompletion ? "Да" : "Нет"}
-            </p>
-          </div>
-        </div>
-      </div>
+      {mode ? (
+        <TaskShowForm
+          taskData={taskData}
+          setTaskDone={setTaskDone}
+          deleteTask={deleteTask}
+          changeToUpdate={changeMode}
+        />
+      ) : (
+        <TaskUpdateForm
+          taskData={taskData}
+          updateTask={updateTask}
+          deleteTask={deleteTask}
+          changeToShow={changeMode}
+        />
+      )}
     </ModalContainer>
   );
 }

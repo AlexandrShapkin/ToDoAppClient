@@ -7,9 +7,11 @@ import TimeConverter from "../../../utils/TimeConverter";
 type Props = {
   taskData: Task;
   setTaskDone(task: Task): Promise<void>;
+  deleteTask(task: Task): Promise<void>;
+  updateTask(task: Task): Promise<void>;
 };
 
-function TaskElement({ taskData, setTaskDone }: Props) {
+function TaskElement({ taskData, setTaskDone, deleteTask, updateTask }: Props) {
   const [showTaskModal, setShowTaskModal] = useState(false);
 
   const changeTaskModalState = () => {
@@ -30,7 +32,9 @@ function TaskElement({ taskData, setTaskDone }: Props) {
         className="ml-[1rem] max-w-[80%] h-[4rem] md:w-[23rem] md:h-[7rem] cursor-pointer"
         onClick={changeTaskModalState}
       >
-        <h1 className="text-[1rem] md:text-2xl font-bold truncate">{taskData.header}</h1>
+        <h1 className="text-[1rem] md:text-2xl font-bold truncate">
+          {taskData.header}
+        </h1>
         <hr className="w-[80%]" />
         <p className="text-[0.5rem] md:text-sm h-[1.5rem] md:h-[3.5rem] hyphens-auto overflow-hidden">
           {taskData.content}
@@ -53,7 +57,14 @@ function TaskElement({ taskData, setTaskDone }: Props) {
             </p>
           </div>
         </div>
-        <TaskModal showModal={showTaskModal} hideModal={changeTaskModalState} taskData={taskData} setTaskDone={setTaskDone} />
+        <TaskModal
+          showModal={showTaskModal}
+          hideModal={changeTaskModalState}
+          taskData={taskData}
+          setTaskDone={setTaskDone}
+          deleteTask={deleteTask}
+          updateTask={updateTask}
+        />
       </div>
     </li>
   );
