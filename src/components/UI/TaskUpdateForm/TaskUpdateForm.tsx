@@ -56,7 +56,7 @@ function TaskUpdateForm({
           <button onClick={changeToShow}>
             <AiFillEye />
           </button>
-          <button onClick={() => deleteTask(taskData)}>
+          <button type="button" onClick={() => deleteTask(taskData)}>
             <AiFillDelete />
           </button>
         </div>

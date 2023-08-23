@@ -23,7 +23,7 @@ export async function updateTask(url: string, token: string, task: Task) {
 }
 
 export async function deleteTask(url: string, token: string, task: Task) {
-  return Fetcher(`${url}/tasks/task`, {
+  return await Fetcher(`${url}/tasks/task`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

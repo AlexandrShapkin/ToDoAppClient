@@ -14,7 +14,7 @@ export async function getTasks() {
     console.log(response);
     throw Error(response.message);
   }
-
+  console.log(response);
   return response;
 }
 
@@ -37,12 +37,12 @@ export async function deleteTask(task: Task) {
   if (!token) {
     return task;
   }
-  const response = await TasksService.updateTask(URL, token, task);
+  const response = await TasksService.deleteTask(URL, token, task);
   if (response.message) {
     console.log(response);
     throw Error(response.message);
   }
-
+  console.log(response);
   return response;
 }
 
