@@ -21,6 +21,24 @@ function TaskElement({ taskData, setTaskDone, deleteTask, updateTask }: Props) {
     setShowTaskModal(!showTaskModal);
   };
 
+  const setTaskDoneHandler = async () => {
+    try {
+      await setTaskDone(taskData);
+    } catch (error) {
+      if (error instanceof Error) {
+        toastsContext?.showToast("Ошибка", error.message, "error");
+        return;
+      }
+    }
+    if (!taskData.isDone) {
+      toastsContext?.showToast(
+        "Задача выполнена",
+        `Задача ${taskData.header} отмечена выполненной`,
+        "ok"
+      );
+    }
+  }
+
   const deleteTaskHandler = async () => {
     try {
       await deleteTask(taskData);
@@ -42,7 +60,7 @@ function TaskElement({ taskData, setTaskDone, deleteTask, updateTask }: Props) {
       <div className="flex justify-center h-[4rem] w-[4rem] md:w-[7rem] md:h-[7rem] ">
         <input
           checked={taskData.isDone}
-          onChange={() => setTaskDone(taskData)}
+          onChange={setTaskDoneHandler}
           type="checkbox"
           className="w-[2rem] md:w-[2rem] transition ease-in-out delay-150 hover:scale-110"
         />
@@ -80,7 +98,7 @@ function TaskElement({ taskData, setTaskDone, deleteTask, updateTask }: Props) {
           showModal={showTaskModal}
           hideModal={changeTaskModalState}
           taskData={taskData}
-          setTaskDone={setTaskDone}
+          setTaskDone={setTaskDoneHandler}
           deleteTask={deleteTaskHandler}
           updateTask={updateTask}
         />

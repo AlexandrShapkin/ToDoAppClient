@@ -5,7 +5,7 @@ import {AiFillEdit, AiFillDelete} from "react-icons/ai";
 
 type Props = {
   taskData: Task;
-  setTaskDone(task: Task): Promise<void>;
+  setTaskDone(): Promise<void>;
   deleteTask(): Promise<void>;
   changeToUpdate(): void;
 };
@@ -17,7 +17,7 @@ function TaskShowForm({taskData, setTaskDone, deleteTask, changeToUpdate}: Props
         <div className="flex flex-row space-x-[0.5rem]">
           <input
             checked={taskData.isDone}
-            onChange={() => setTaskDone(taskData)}
+            onChange={setTaskDone}
             type="checkbox"
             className="w-[1.5rem] md:w-[2rem] transition ease-in-out delay-150 hover:scale-110"
           />
