@@ -6,7 +6,7 @@ import {AiFillEdit, AiFillDelete} from "react-icons/ai";
 type Props = {
   taskData: Task;
   setTaskDone(task: Task): Promise<void>;
-  deleteTask(task: Task): Promise<void>;
+  deleteTask(): Promise<void>;
   changeToUpdate(): void;
 };
 
@@ -29,7 +29,7 @@ function TaskShowForm({taskData, setTaskDone, deleteTask, changeToUpdate}: Props
           <button onClick={changeToUpdate}>
             <AiFillEdit />
           </button>
-          <button onClick={() => deleteTask(taskData)}>
+          <button onClick={deleteTask}>
             <AiFillDelete />
           </button>
         </div>

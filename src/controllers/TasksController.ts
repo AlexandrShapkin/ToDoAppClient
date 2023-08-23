@@ -14,7 +14,7 @@ export async function getTasks() {
     console.log(response);
     throw Error(response.message);
   }
-  console.log(response);
+
   return response;
 }
 
@@ -42,7 +42,7 @@ export async function deleteTask(task: Task) {
     console.log(response);
     throw Error(response.message);
   }
-  console.log(response);
+
   return response;
 }
 

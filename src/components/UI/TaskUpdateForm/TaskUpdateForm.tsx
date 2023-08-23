@@ -7,7 +7,7 @@ import { ToastsContext } from "../../../App";
 type Props = {
   taskData: Task;
   updateTask(task: Task): Promise<void>;
-  deleteTask(task: Task): Promise<void>;
+  deleteTask(): Promise<void>;
   changeToShow(): void;
 };
 
@@ -56,7 +56,7 @@ function TaskUpdateForm({
           <button onClick={changeToShow}>
             <AiFillEye />
           </button>
-          <button type="button" onClick={() => deleteTask(taskData)}>
+          <button type="button" onClick={deleteTask}>
             <AiFillDelete />
           </button>
         </div>

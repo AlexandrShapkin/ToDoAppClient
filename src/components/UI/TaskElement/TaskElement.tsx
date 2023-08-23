@@ -1,8 +1,9 @@
 import { MdAddTask, MdTaskAlt } from "react-icons/md";
 import Task from "../../../types/Task";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import TaskModal from "../../TaskModal/TaskModal";
 import TimeConverter from "../../../utils/TimeConverter";
+import { ToastsContext } from "../../../App";
 
 type Props = {
   taskData: Task;
@@ -12,11 +13,29 @@ type Props = {
 };
 
 function TaskElement({ taskData, setTaskDone, deleteTask, updateTask }: Props) {
+  const toastsContext = useContext(ToastsContext);
+
   const [showTaskModal, setShowTaskModal] = useState(false);
 
   const changeTaskModalState = () => {
     setShowTaskModal(!showTaskModal);
   };
+
+  const deleteTaskHandler = async () => {
+    try {
+      await deleteTask(taskData);
+    } catch (error) {
+      if (error instanceof Error) {
+        toastsContext?.showToast("Ошибка удаления", error.message, "error");
+        return;
+      }
+    }
+    toastsContext?.showToast(
+      "Задача удалена",
+      `Задача ${taskData.header} удалена`,
+      "ok"
+    );
+  }
 
   return (
     <li className="flex m-auto h-[4rem] w-full md:h-[7rem] md:w-[30rem]">
@@ -62,7 +81,7 @@ function TaskElement({ taskData, setTaskDone, deleteTask, updateTask }: Props) {
           hideModal={changeTaskModalState}
           taskData={taskData}
           setTaskDone={setTaskDone}
-          deleteTask={deleteTask}
+          deleteTask={deleteTaskHandler}
           updateTask={updateTask}
         />
       </div>

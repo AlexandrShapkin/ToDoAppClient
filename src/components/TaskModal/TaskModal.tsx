@@ -7,7 +7,7 @@ import TaskUpdateForm from "../UI/TaskUpdateForm/TaskUpdateForm";
 type Props = {
   taskData: Task;
   setTaskDone(task: Task): Promise<void>;
-  deleteTask(task: Task): Promise<void>;
+  deleteTask(): Promise<void>;
   updateTask(task: Task): Promise<void>;
   showModal: boolean;
   hideModal: () => void;
