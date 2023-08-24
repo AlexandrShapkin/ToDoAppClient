@@ -28,7 +28,11 @@ function SideMenu({ onClick, showMenu }: Props) {
     const file = e.target.files[0];
 
     if (file.type != "application/json") {
-      toastsContext?.showToast("Ошибка загрузки", "Неверное расширение файла!", "error");
+      toastsContext?.showToast(
+        "Ошибка загрузки",
+        "Неверное расширение файла!",
+        "error"
+      );
       return;
     }
 
@@ -42,8 +46,23 @@ function SideMenu({ onClick, showMenu }: Props) {
       }
     }
 
-    toastsContext?.showToast("Успешная загрузка", `Успешная загрузка файла ${file.name}`, "ok");
-  }
+    toastsContext?.showToast(
+      "Успешная загрузка",
+      `Успешная загрузка файла ${file.name}`,
+      "ok"
+    );
+  };
+
+  const downloadFile = () => {
+    const tasksJson = `data:application/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(tasksContext?.tasks, null, 2)
+    )}`;
+    const link = document.createElement("a");
+    link.href = tasksJson;
+    link.download = "tasks.json";
+
+    link.click();    
+  };
 
   return (
     <>
@@ -70,10 +89,20 @@ function SideMenu({ onClick, showMenu }: Props) {
                   </button>
                 </li>
                 <li>
-                  <label className="cursor-pointer" htmlFor="loadTasks" >
-                    <input type="file" id="loadTasks" onChange={loadFileHandler} hidden />
+                  <label className="cursor-pointer" htmlFor="loadTasks">
+                    <input
+                      type="file"
+                      id="loadTasks"
+                      onChange={loadFileHandler}
+                      hidden
+                    />
                     Загрузить задачи
                   </label>
+                </li>
+                <li>
+                  <button type="button" onClick={downloadFile}>
+                    Выгрузить задачи
+                  </button>
                 </li>
                 <li>
                   <button className="">Список задач</button>
