@@ -56,6 +56,20 @@ function App() {
     }
   };
 
+  const addTasks = async (fileTasks: Task[]) => {
+    let addedTasks: Task[] = [];
+
+    try {
+      addedTasks = await TasksController.addTasks(fileTasks);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw Error(error.message);
+      }
+    }
+
+    setTasks([...tasks, ...addedTasks]);
+  }
+
   const setTaskDone = async (task: Task) => {
     let updatedTask: Task;
 
@@ -146,6 +160,7 @@ function App() {
             value={{
               tasks: tasks,
               fetchTasks: fetchTasks,
+              addTasks: addTasks,
               setTaskDone: setTaskDone,
               addTask: addTask,
               deleteTask: deleteTask,

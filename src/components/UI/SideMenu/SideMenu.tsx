@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import HeaderContainer from "../HeaderContainer/HeaderContainer";
 import Logo from "../Logo/Logo";
 import MenuButton from "../MenuButton/MenuButton";
 import UserLabel from "../UserLabel/UserLabel";
 
 import AddTaskModal from "../../AddTaskModal/AddTaskModal";
+import { TasksContext, ToastsContext } from "../../../App";
+import Task from "../../../types/Task";
 
 type Props = {
   onClick?: () => void;
@@ -12,10 +14,36 @@ type Props = {
 };
 
 function SideMenu({ onClick, showMenu }: Props) {
+  const tasksContext = useContext(TasksContext);
+  const toastsContext = useContext(ToastsContext);
   const [showModal, setShowModal] = useState(false);
   const showModalHandler = () => {
     setShowModal(!showModal);
   };
+
+  const loadFileHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    const file = e.target.files[0];
+
+    if (file.type != "application/json") {
+      toastsContext?.showToast("Ошибка загрузки", "Неверное расширение файла!", "error");
+      return;
+    }
+
+    const tasks = JSON.parse(await file.text()) as Task[];
+
+    try {
+      await tasksContext?.addTasks(tasks);
+    } catch (error) {
+      if (error instanceof Error) {
+        toastsContext?.showToast("Ошибка загрузки", error.message, "error");
+      }
+    }
+
+    toastsContext?.showToast("Успешная загрузка", `Успешная загрузка файла ${file.name}`, "ok");
+  }
 
   return (
     <>
@@ -40,6 +68,12 @@ function SideMenu({ onClick, showMenu }: Props) {
                   <button className="" onClick={showModalHandler}>
                     Добавить задачу
                   </button>
+                </li>
+                <li>
+                  <label className="cursor-pointer" htmlFor="loadTasks" >
+                    <input type="file" id="loadTasks" onChange={loadFileHandler} hidden />
+                    Загрузить задачи
+                  </label>
                 </li>
                 <li>
                   <button className="">Список задач</button>

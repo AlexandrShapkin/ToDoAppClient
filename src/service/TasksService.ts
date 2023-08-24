@@ -11,6 +11,17 @@ export async function getTasks(url: string, token: string) {
   });
 }
 
+export async function addTasks(url: string, token: string, tasks: Task[]) {
+  return Fetcher(`${url}/tasks`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(tasks),
+  });
+}
+
 export async function updateTask(url: string, token: string, task: Task) {
   return Fetcher(`${url}/tasks/task`, {
     method: "PUT",
@@ -46,6 +57,7 @@ export async function addTask(url: string, token: string, task: Task) {
 
 export default {
   getTasks: getTasks,
+  addTasks: addTasks,
   updateTask: updateTask,
   addTask: addTask,
   deleteTask: deleteTask,

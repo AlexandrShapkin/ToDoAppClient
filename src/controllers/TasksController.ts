@@ -18,6 +18,20 @@ export async function getTasks() {
   return response;
 }
 
+export async function addTasks(tasks: Task[]) {
+  const token = TokenService.getToken();
+  if (!token) {
+    return [];
+  }
+  const response = await TasksService.addTasks(URL, token, tasks);
+  if (response.message) {
+    console.log(response);
+    throw Error(response.message);
+  }
+
+  return response;
+}
+
 export async function updateTask(task: Task) {
   const token = TokenService.getToken();
   if (!token) {
@@ -62,6 +76,7 @@ export async function addTask(task: Task) {
 
 export default {
   getTasks: getTasks,
+  addTasks: addTasks,
   updateTask: updateTask,
   addTask: addTask,
   deleteTask: deleteTask,
