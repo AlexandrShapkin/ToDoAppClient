@@ -107,9 +107,6 @@ function SideMenu({ onClick, showMenu }: Props) {
                 <li>
                   <button className="">Список задач</button>
                 </li>
-                <li>
-                  <p className="">Группы</p>
-                </li>
               </ul>
             </div>
           </div>
