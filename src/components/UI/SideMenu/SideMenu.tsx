@@ -61,7 +61,7 @@ function SideMenu({ onClick, showMenu }: Props) {
     link.href = tasksJson;
     link.download = "tasks.json";
 
-    link.click();    
+    link.click();
   };
 
   return (
@@ -84,28 +84,40 @@ function SideMenu({ onClick, showMenu }: Props) {
             <div className="h-[70%] overflow-auto">
               <ul className="h-[70%] m-[2rem] min-w-[18rem] divide-y devide-granite-gray leading-10 text-white font-bold text-xl">
                 <li>
-                  <button className="" onClick={showModalHandler}>
+                  <button
+                    className="ease-in-out delay-150 hover:translate-x-[-0.2rem]"
+                    onClick={showModalHandler}
+                  >
                     Добавить задачу
                   </button>
                 </li>
                 <li>
-                  <label className="cursor-pointer" htmlFor="loadTasks">
+                  <label
+                    className="cursor-pointer"
+                    htmlFor="loadTasks"
+                  >
                     <input
                       type="file"
                       id="loadTasks"
                       onChange={loadFileHandler}
                       hidden
                     />
-                    Загрузить задачи
+                    <p className="ease-in-out delay-150 hover:translate-x-[-0.2rem]">Загрузить задачи</p>
                   </label>
                 </li>
                 <li>
-                  <button type="button" onClick={downloadFile}>
+                  <button
+                    className="ease-in-out delay-150 hover:translate-x-[-0.2rem]"
+                    type="button"
+                    onClick={downloadFile}
+                  >
                     Выгрузить задачи
                   </button>
                 </li>
                 <li>
-                  <button className="">Список задач</button>
+                  <button className="ease-in-out delay-150 hover:translate-x-[-0.2rem]">
+                    Список задач
+                  </button>
                 </li>
               </ul>
             </div>
