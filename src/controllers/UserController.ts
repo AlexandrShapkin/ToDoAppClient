@@ -61,7 +61,7 @@ const UserController = {
   login: login,
   register: register,
   logout: logout,
-  refresh: refresh
+  refresh: refresh,
 };
 
 export default UserController;

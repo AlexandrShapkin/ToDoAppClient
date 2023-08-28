@@ -5,6 +5,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { UserContext, TasksContext } from "../../../App";
 
 import { AiOutlinePlus } from "react-icons/ai";
+import AddTaskModal from "../../AddTaskModal/AddTaskModal";
 
 function TasksList() {
   const userContext = useContext(UserContext);
@@ -13,6 +14,11 @@ function TasksList() {
   useEffect(() => {
     tasksContext?.fetchTasks();
   }, [userContext?.username]);
+
+  const [showModal, setShowModal] = useState(false);
+  const showModalHandler = () => {
+    setShowModal(!showModal);
+  };
 
   const [filter, setFilter] = useState<string>("");
 
@@ -35,11 +41,12 @@ function TasksList() {
   };
 
   return (
-    <ul className="divide-y devide-granite-gray mx-auto space-y-[1rem]  h-[90vh] sm:h-[85vh] md:h-[92vh] w-full md:w-[30rem]">
+    <ul className="divide-y devide-granite-gray mx-auto space-y-[1rem] h-[90vh] sm:h-[80vh] md:h-[86vh] w-full md:w-[30rem]">
       <div className="flex flex-row h-[1rem] justify-between">
-        <button className="text-[2rem] ease-in-out delay-150 hover:scale-110">
+        <button className="text-[2rem] ease-in-out delay-150 hover:scale-110" onClick={showModalHandler}>
           <AiOutlinePlus />
         </button>
+        <AddTaskModal showModal={showModal} hideModal={showModalHandler} />
         <div>
           <select
             className="h-[2rem] w-[8rem] bg-transparent truncate"
