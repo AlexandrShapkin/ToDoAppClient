@@ -3,8 +3,9 @@ import UserDto from "../dtos/UserDto";
 import UserService from "../service/UserService";
 
 import { saveToken } from "../service/TokenService";
+import { API_URL } from "../env/env";
 
-const URL = "http://localhost:3000/api";
+const URL = API_URL;
 
 export async function login({
   username,

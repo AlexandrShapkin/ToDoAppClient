@@ -1,8 +1,10 @@
+import { API_URL } from "../env/env";
 import TasksService from "../service/TasksService";
 import TokenService from "../service/TokenService";
 import Task from "../types/Task";
 
-const URL = "http://localhost:3000/api";
+
+const URL = API_URL;
 
 export async function getTasks() {
   const token = TokenService.getToken();
