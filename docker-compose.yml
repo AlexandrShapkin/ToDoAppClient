@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    image: alexandrshapkin/todoapp-client
+    ports:
+      - 80:80
