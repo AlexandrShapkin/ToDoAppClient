@@ -9,7 +9,6 @@ import useToasts from "./hooks/useToasts";
 import useUser from "./hooks/useUser";
 
 import UserContextValue from "./types/UserContextValue";
-import UserController from "./controllers/UserController";
 
 import TasksContextValue from "./types/TasksContextValue";
 import TasksController from "./controllers/TasksController";
@@ -27,16 +26,8 @@ function App() {
   const [userContextValue] = useUser();
   const [toastsContextValue] = useToasts();
 
-  const refresh = async () => {
-    try {
-      await UserController.refresh(userContextValue?.setUser);
-    } catch (error) {
-      return;
-    }
-  };
-
   useEffect(() => {
-    refresh();
+    userContextValue.refreshUser();
   }, []);
 
   const taskController = new TasksController(API_URL);

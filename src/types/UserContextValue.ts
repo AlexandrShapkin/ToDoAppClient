@@ -1,3 +1,4 @@
+import UserController from "../controllers/UserController";
 import UserDto from "../dtos/UserDto";
 
 type UserContextValue = {
@@ -6,6 +7,8 @@ type UserContextValue = {
   userId: string;
   setUserId(newUserId: string): void;
   setUser(newUser: UserDto): void;
+  userController: UserController;
+  refreshUser(): Promise<void>
 }
 
 export default UserContextValue;

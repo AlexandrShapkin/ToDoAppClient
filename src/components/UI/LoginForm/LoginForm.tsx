@@ -1,6 +1,5 @@
 import { useState, FormEvent, useContext } from "react";
 
-import UserController from "../../../controllers/UserController";
 import UserDataDto from "../../../dtos/UserDataDto";
 
 import { getToken } from "../../../service/TokenService";
@@ -27,7 +26,7 @@ function LoginForm({ changeToRegister, hideModal }: Props) {
     };
     let userData: UserDto;
     try {
-      userData = await UserController.login(loginData);
+      userData = await userContext!.userController.login(loginData);
     } catch (error) {
       if (error instanceof Error) {
         toastsContext?.showToast("Ошибка авторизации", error.message, "error");

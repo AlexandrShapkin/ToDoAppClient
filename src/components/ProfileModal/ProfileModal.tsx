@@ -3,7 +3,6 @@ import { PiUserCircle } from "react-icons/pi";
 import { useContext } from "react";
 import ModalContainer from "../UI/ModalContainer/ModalContainer";
 import { ToastsContext, UserContext } from "../../App";
-import UserController from "../../controllers/UserController";
 
 type Props = {
   showModal: boolean;
@@ -16,7 +15,7 @@ function ProfileModal({ showModal, hideModal }: Props) {
 
   const logout = () => {
     try {
-      UserController.logout();
+      userContext?.userController.logout();
     } catch (error) {
       if (error instanceof Error) {
         toastsContext?.showToast("Ошибка выхода", error.message, "error");
