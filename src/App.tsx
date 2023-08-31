@@ -15,6 +15,8 @@ import TasksContextValue from "./types/TasksContextValue";
 import TasksController from "./controllers/TasksController";
 import Task from "./types/Task";
 
+import { API_URL } from "./env/env";
+
 export const ToastsContext = createContext<ToastsContextValue | null>(null);
 
 export const UserContext = createContext<UserContextValue | null>(null);
@@ -37,6 +39,7 @@ function App() {
     refresh();
   }, []);
 
+  const taskController = new TasksController(API_URL);
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const fetchTasks = async () => {
@@ -46,7 +49,7 @@ function App() {
     }
     let resTasks: Task[];
     try {
-      resTasks = await TasksController.getTasks();
+      resTasks = await taskController.getTasks();
       setTasks(resTasks);
     } catch (error) {
       if (error instanceof Error) {
@@ -60,7 +63,7 @@ function App() {
     let addedTasks: Task[] = [];
 
     try {
-      addedTasks = await TasksController.addTasks(fileTasks);
+      addedTasks = await taskController.addTasks(fileTasks);
     } catch (error) {
       if (error instanceof Error) {
         throw Error(error.message);
@@ -74,7 +77,7 @@ function App() {
     let updatedTask: Task;
 
     try {
-      updatedTask = await TasksController.updateTask({
+      updatedTask = await taskController.updateTask({
         ...task,
         isDone: !task.isDone,
       });
@@ -102,7 +105,7 @@ function App() {
     let deletedTask: Task;
 
     try {
-      deletedTask = await TasksController.deleteTask(task);
+      deletedTask = await taskController.deleteTask(task);
     } catch (error) {
       if (error instanceof Error) {
         throw Error(error.message);
@@ -118,7 +121,7 @@ function App() {
     let updatedTask: Task;
 
     try {
-      updatedTask = await TasksController.updateTask(task);
+      updatedTask = await taskController.updateTask(task);
     } catch (error) {
       if (error instanceof Error) {
         throw Error(error.message);
@@ -143,7 +146,7 @@ function App() {
     let newTask: Task;
 
     try {
-      newTask = await TasksController.addTask(task);
+      newTask = await taskController.addTask(task);
       setTasks([...tasks, newTask]);
     } catch (error) {
       if (error instanceof Error) {
