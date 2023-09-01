@@ -1,12 +1,15 @@
-import TasksService from "../service/TasksService";
 import TokenService from "../service/TokenService";
 import Task from "../types/Task";
+import { instanceOfResponseError } from '../types/ResponseError';
+import TaskService from '../interfaces/TaskService';
 
 class TaskController {
   private apiUrl: string;
+  private taskService: TaskService;
 
-  constructor(apiUrl: string) {
+  constructor(apiUrl: string, taskService: TaskService) {
     this.apiUrl = apiUrl;
+    this.taskService = taskService;
   }
 
   public async getTasks() {
@@ -14,8 +17,8 @@ class TaskController {
     if (!token) {
       return [];
     }
-    const response = await TasksService.getTasks(this.apiUrl, token);
-    if (response.message) {
+    const response = await this.taskService.getTasks(this.apiUrl, token);
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
@@ -28,8 +31,8 @@ class TaskController {
     if (!token) {
       return [];
     }
-    const response = await TasksService.addTasks(this.apiUrl, token, tasks);
-    if (response.message) {
+    const response = await this.taskService.addTasks(this.apiUrl, token, tasks);
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
@@ -42,8 +45,8 @@ class TaskController {
     if (!token) {
       return task;
     }
-    const response = await TasksService.updateTask(this.apiUrl, token, task);
-    if (response.message) {
+    const response = await this.taskService.updateTask(this.apiUrl, token, task);
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
@@ -56,8 +59,8 @@ class TaskController {
     if (!token) {
       return task;
     }
-    const response = await TasksService.deleteTask(this.apiUrl, token, task);
-    if (response.message) {
+    const response = await this.taskService.deleteTask(this.apiUrl, token, task);
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
@@ -70,8 +73,8 @@ class TaskController {
     if (!token) {
       throw Error("Вы не авторизорованы!");
     }
-    const response = await TasksService.addTask(this.apiUrl, token, task);
-    if (response.message) {
+    const response = await this.taskService.addTask(this.apiUrl, token, task);
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
