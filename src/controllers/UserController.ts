@@ -1,22 +1,25 @@
 import UserDataDto from "../dtos/UserDataDto";
 import UserDto from "../dtos/UserDto";
-import UserService from "../service/UserService";
+import UserService from "../interfaces/UserService";
 
 import { saveToken } from "../service/TokenService";
+import { instanceOfResponseError } from "../types/ResponseError";
 
 class UserController {
   private apiUrl: string;
+  private userService: UserService;
 
-  constructor(apiUrl: string) {
+  constructor(apiUrl: string, userService: UserService) {
     this.apiUrl = apiUrl;
+    this.userService = userService;
   }
 
-  async login({
+  public async login({
     username,
     password,
   }: UserDataDto): Promise<UserDto> {
-    const response = await UserService.login(this.apiUrl, { username, password });
-    if (response.message) {
+    const response = await this.userService.login(this.apiUrl, { username, password });
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
@@ -26,12 +29,12 @@ class UserController {
     return response.userDto;
   }
   
-  async register({
+  public async register({
     username,
     password,
   }: UserDataDto): Promise<UserDto> {
-    const response = await UserService.register(this.apiUrl, { username, password });
-    if (response.message) {
+    const response = await this.userService.register(this.apiUrl, { username, password });
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
@@ -41,18 +44,18 @@ class UserController {
     return response.userDto;
   }
   
-  async logout() {
-    const response = await UserService.logout(this.apiUrl);
-    if (response.message) {
+  public async logout() {
+    const response = await this.userService.logout(this.apiUrl);
+    if (typeof response != "string" && instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }
     saveToken("");
   }
   
-  async refresh(setUser: (newUser: UserDto) => void) {
-    const response = await UserService.refresh(this.apiUrl);
-    if (response.message) {
+  public async refresh(setUser: (newUser: UserDto) => void) {
+    const response = await this.userService.refresh(this.apiUrl);
+    if (instanceOfResponseError(response)) {
       console.log(response);
       throw Error(response.message);
     }

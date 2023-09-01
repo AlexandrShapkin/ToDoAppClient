@@ -11,7 +11,7 @@ import useUser from "./hooks/useUser";
 import UserContextValue from "./types/UserContextValue";
 
 import TasksContextValue from "./types/TasksContextValue";
-import TasksController from "./controllers/TasksController";
+import TasksController from "./controllers/TaskController";
 import Task from "./types/Task";
 
 import { API_URL } from "./env/env";

@@ -4,11 +4,12 @@ import UserContextValue from "../types/UserContextValue";
 import UserDto from "../dtos/UserDto";
 import UserController from "../controllers/UserController";
 import { API_URL } from "../env/env";
+import FetchUserService from "../service/FetchUserService";
 
 function useUser(): [UserContextValue] {
   const [username, _setUsername] = useState("");
   const [userId, _setUserId] = useState("");
-  const userController = new UserController(API_URL);
+  const userController = new UserController(API_URL, FetchUserService);
 
   const refreshUser = async () => {
     try {
