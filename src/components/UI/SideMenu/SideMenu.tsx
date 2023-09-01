@@ -7,6 +7,7 @@ import UserLabel from "../UserLabel/UserLabel";
 import AddTaskModal from "../../AddTaskModal/AddTaskModal";
 import { TasksContext, ToastsContext } from "../../../App";
 import Task from "../../../types/Task";
+import { newRawTask } from "../../../types/RawTask";
 
 type Props = {
   onClick?: () => void;
@@ -55,7 +56,18 @@ function SideMenu({ onClick, showMenu }: Props) {
 
   const downloadFile = () => {
     const tasksJson = `data:application/json;charset=utf-8,${encodeURIComponent(
-      JSON.stringify(tasksContext?.tasks, null, 2)
+      JSON.stringify(
+        tasksContext?.tasks.map((task) =>
+          newRawTask(
+            task.header,
+            task.content,
+            task.deleteOnCompletion,
+            task.group
+          )
+        ),
+        null,
+        2
+      )
     )}`;
     const link = document.createElement("a");
     link.href = tasksJson;
@@ -92,17 +104,16 @@ function SideMenu({ onClick, showMenu }: Props) {
                   </button>
                 </li>
                 <li>
-                  <label
-                    className="cursor-pointer"
-                    htmlFor="loadTasks"
-                  >
+                  <label className="cursor-pointer" htmlFor="loadTasks">
                     <input
                       type="file"
                       id="loadTasks"
                       onChange={loadFileHandler}
                       hidden
                     />
-                    <p className="ease-in-out delay-150 hover:translate-x-[-0.2rem]">Загрузить задачи</p>
+                    <p className="ease-in-out delay-150 hover:translate-x-[-0.2rem]">
+                      Загрузить задачи
+                    </p>
                   </label>
                 </li>
                 <li>
