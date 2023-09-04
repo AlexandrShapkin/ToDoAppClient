@@ -1,7 +1,7 @@
-import UserDto from "./UserDto";
+import UserData from "../types/UserData";
 
 export default interface AuthAccessDto {
   accessToken: string;
   refreshToken: string;
-  userDto: UserDto;
+  userData: UserData;
 }

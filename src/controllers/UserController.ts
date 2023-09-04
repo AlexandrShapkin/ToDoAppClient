@@ -1,9 +1,9 @@
-import UserDto from "../dtos/UserDto";
 import TokenRepo from "../interfaces/TokenRepo";
 import UserService from "../interfaces/UserService";
 
 import { instanceOfResponseError } from "../types/ResponseError";
 import UserAuthData from "../types/UserAuthData";
+import UserData from "../types/UserData";
 
 class UserController {
   private apiUrl: string;
@@ -19,7 +19,7 @@ class UserController {
   public async login({
     username,
     password,
-  }: UserAuthData): Promise<UserDto> {
+  }: UserAuthData): Promise<UserData> {
     const response = await this.userService.login(this.apiUrl, { username, password });
     if (instanceOfResponseError(response)) {
       console.log(response);
@@ -28,13 +28,13 @@ class UserController {
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
     }
-    return response.userDto;
+    return response.userData;
   }
   
   public async register({
     username,
     password,
-  }: UserAuthData): Promise<UserDto> {
+  }: UserAuthData): Promise<UserData> {
     const response = await this.userService.register(this.apiUrl, { username, password });
     if (instanceOfResponseError(response)) {
       console.log(response);
@@ -43,7 +43,7 @@ class UserController {
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
     }
-    return response.userDto;
+    return response.userData;
   }
   
   public async logout() {
@@ -55,7 +55,7 @@ class UserController {
     this.tokenRepo.save("");
   }
   
-  public async refresh(setUser: (newUser: UserDto) => void) {
+  public async refresh(setUser: (newUser: UserData) => void) {
     const response = await this.userService.refresh(this.apiUrl);
     if (instanceOfResponseError(response)) {
       console.log(response);
@@ -63,7 +63,7 @@ class UserController {
     }
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
-      setUser(response.userDto);
+      setUser(response.userData);
     }
   }
 }
