@@ -1,5 +1,5 @@
-import AuthAccessDto from "../dtos/AuthAccessDto";
 import UserService from "../interfaces/UserService";
+import AuthAccessData from "../types/AuthAccessData";
 import ResponseError from "../types/ResponseError";
 import UserAuthData from "../types/UserAuthData";
 import Fetcher from "../utils/Fetcher";
@@ -8,7 +8,7 @@ class FetchUserService implements UserService {
   public async login(
     url: string,
     userDataDto: UserAuthData
-  ): Promise<ResponseError | AuthAccessDto> {
+  ): Promise<ResponseError | AuthAccessData> {
     return Fetcher(`${url}/login`, {
       method: "POST",
       credentials: "include",
@@ -22,7 +22,7 @@ class FetchUserService implements UserService {
   public async register(
     url: string,
     userDataDto: UserAuthData
-  ): Promise<ResponseError | AuthAccessDto> {
+  ): Promise<ResponseError | AuthAccessData> {
     return Fetcher(`${url}/registration`, {
       method: "POST",
       credentials: "include",
@@ -40,7 +40,7 @@ class FetchUserService implements UserService {
     });
   }
 
-  public async refresh(url: string): Promise<ResponseError | AuthAccessDto> {
+  public async refresh(url: string): Promise<ResponseError | AuthAccessData> {
     return Fetcher(`${url}/refresh`, {
       method: "POST",
       credentials: "include",
