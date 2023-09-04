@@ -1,13 +1,13 @@
 import AuthAccessDto from "../dtos/AuthAccessDto";
-import UserDataDto from "../dtos/UserDataDto";
 import UserService from "../interfaces/UserService";
 import ResponseError from "../types/ResponseError";
+import UserAuthData from "../types/UserAuthData";
 import Fetcher from "../utils/Fetcher";
 
 class FetchUserService implements UserService {
   public async login(
     url: string,
-    userDataDto: UserDataDto
+    userDataDto: UserAuthData
   ): Promise<ResponseError | AuthAccessDto> {
     return Fetcher(`${url}/login`, {
       method: "POST",
@@ -21,7 +21,7 @@ class FetchUserService implements UserService {
 
   public async register(
     url: string,
-    userDataDto: UserDataDto
+    userDataDto: UserAuthData
   ): Promise<ResponseError | AuthAccessDto> {
     return Fetcher(`${url}/registration`, {
       method: "POST",

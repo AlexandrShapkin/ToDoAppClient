@@ -1,9 +1,9 @@
-import UserDataDto from "../dtos/UserDataDto";
 import UserDto from "../dtos/UserDto";
 import TokenRepo from "../interfaces/TokenRepo";
 import UserService from "../interfaces/UserService";
 
 import { instanceOfResponseError } from "../types/ResponseError";
+import UserAuthData from "../types/UserAuthData";
 
 class UserController {
   private apiUrl: string;
@@ -19,7 +19,7 @@ class UserController {
   public async login({
     username,
     password,
-  }: UserDataDto): Promise<UserDto> {
+  }: UserAuthData): Promise<UserDto> {
     const response = await this.userService.login(this.apiUrl, { username, password });
     if (instanceOfResponseError(response)) {
       console.log(response);
@@ -34,7 +34,7 @@ class UserController {
   public async register({
     username,
     password,
-  }: UserDataDto): Promise<UserDto> {
+  }: UserAuthData): Promise<UserDto> {
     const response = await this.userService.register(this.apiUrl, { username, password });
     if (instanceOfResponseError(response)) {
       console.log(response);
