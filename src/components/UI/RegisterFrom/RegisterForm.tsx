@@ -2,9 +2,9 @@ import { useState, FormEvent, useContext } from "react";
 
 import UserDataDto from "../../../dtos/UserDataDto";
 
-import { getToken } from "../../../service/TokenService";
 import { ToastsContext, UserContext } from "../../../App";
 import UserDto from "../../../dtos/UserDto";
+import SessionStorageTokenRepo from "../../../repositories/SessionStorageTokenRepo";
 
 type Props = {
   changeToLogin: () => void;
@@ -44,7 +44,7 @@ function RegisterForm({ changeToLogin, hideModal }: Props) {
       }
       return;
     }
-    if (getToken()) {
+    if (SessionStorageTokenRepo.get()) {
       userContext?.setUser(userData);
       toastsContext?.showToast(
         "Успешная регистрации",

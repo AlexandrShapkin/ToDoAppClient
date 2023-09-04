@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-import TokenService from "../service/TokenService";
+import SessionStorageTokenRepo from "../repositories/SessionStorageTokenRepo";
 
 export function useToken(): readonly [string | null, (token: string) => void] {
-  const [token, _setToken] = useState<string | null>(TokenService.getToken());
+  const [token, _setToken] = useState<string | null>(SessionStorageTokenRepo.get());
 
   const setToken = (token: string) => {
-    TokenService.saveToken(token)
+    SessionStorageTokenRepo.save(token);
     _setToken(token);
   };
 
