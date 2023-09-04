@@ -1,10 +1,9 @@
 import { useState, FormEvent, useContext } from "react";
 
-import UserDataDto from "../../../dtos/UserDataDto";
-
 import { ToastsContext, UserContext } from "../../../App";
-import UserDto from "../../../dtos/UserDto";
 import SessionStorageTokenRepo from "../../../repositories/SessionStorageTokenRepo";
+import UserAuthData from "../../../types/UserAuthData";
+import UserData from "../../../types/UserData";
 
 type Props = {
   changeToRegister: () => void;
@@ -20,11 +19,11 @@ function LoginForm({ changeToRegister, hideModal }: Props) {
 
   const loginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const loginData: UserDataDto = {
+    const loginData: UserAuthData = {
       username: login,
       password: password,
     };
-    let userData: UserDto;
+    let userData: UserData;
     try {
       userData = await userContext!.userController.login(loginData);
     } catch (error) {

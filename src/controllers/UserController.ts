@@ -28,7 +28,8 @@ class UserController {
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
     }
-    return response.userData;
+
+    return response.userDto;
   }
   
   public async register({
@@ -43,7 +44,7 @@ class UserController {
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
     }
-    return response.userData;
+    return response.userDto;
   }
   
   public async logout() {
@@ -63,7 +64,7 @@ class UserController {
     }
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
-      setUser(response.userData);
+      setUser(response.userDto);
     }
   }
 }

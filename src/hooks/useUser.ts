@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import UserContextValue from "../types/UserContextValue";
-import UserDto from "../dtos/UserDto";
 import UserController from "../controllers/UserController";
 import { API_URL } from "../env/env";
 import FetchUserService from "../service/FetchUserService";
 import SessionStorageTokenRepo from "../repositories/SessionStorageTokenRepo";
+import UserData from "../types/UserData";
 
 function useUser(): [UserContextValue] {
   const [username, _setUsername] = useState("");
@@ -28,7 +28,7 @@ function useUser(): [UserContextValue] {
     _setUserId(newUserId);
   };
 
-  const setUser = (newUser: UserDto) => {
+  const setUser = (newUser: UserData) => {
     setUsername(newUser.username);
     setUserId(newUser.id);
   };

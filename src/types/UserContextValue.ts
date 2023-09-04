@@ -1,12 +1,12 @@
 import UserController from "../controllers/UserController";
-import UserDto from "../dtos/UserDto";
+import UserData from "./UserData";
 
 type UserContextValue = {
   username: string;
   setUsername(newUsername: string): void;
   userId: string;
   setUserId(newUserId: string): void;
-  setUser(newUser: UserDto): void;
+  setUser(newUser: UserData): void;
   userController: UserController;
   refreshUser(): Promise<void>
 }
