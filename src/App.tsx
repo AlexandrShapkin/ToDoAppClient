@@ -16,6 +16,7 @@ import Task from "./types/Task";
 
 import { API_URL } from "./env/env";
 import FetchTasksService from "./service/FetchTasksService";
+import SessionStorageTokenRepo from "./repositories/SessionStorageTokenRepo";
 
 export const ToastsContext = createContext<ToastsContextValue | null>(null);
 
@@ -31,7 +32,7 @@ function App() {
     userContextValue.refreshUser();
   }, []);
 
-  const taskController = new TasksController(API_URL, FetchTasksService);
+  const taskController = new TasksController(API_URL, FetchTasksService, SessionStorageTokenRepo);
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const fetchTasks = async () => {

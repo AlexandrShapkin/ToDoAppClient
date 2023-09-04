@@ -1,19 +1,21 @@
-import TokenService from "../service/TokenService";
 import Task from "../types/Task";
 import { instanceOfResponseError } from '../types/ResponseError';
 import TaskService from '../interfaces/TaskService';
+import TokenRepo from "../interfaces/TokenRepo";
 
 class TaskController {
   private apiUrl: string;
   private taskService: TaskService;
+  private tokenRepo: TokenRepo;
 
-  constructor(apiUrl: string, taskService: TaskService) {
+  constructor(apiUrl: string, taskService: TaskService, tokenRepo: TokenRepo) {
     this.apiUrl = apiUrl;
     this.taskService = taskService;
+    this.tokenRepo = tokenRepo;
   }
 
   public async getTasks() {
-    const token = TokenService.getToken();
+    const token = this.tokenRepo.get();
     if (!token) {
       return [];
     }
@@ -27,7 +29,7 @@ class TaskController {
   }
 
   public async addTasks(tasks: Task[]) {
-    const token = TokenService.getToken();
+    const token = this.tokenRepo.get();
     if (!token) {
       return [];
     }
@@ -41,7 +43,7 @@ class TaskController {
   }
 
   public async updateTask(task: Task) {
-    const token = TokenService.getToken();
+    const token = this.tokenRepo.get();
     if (!token) {
       return task;
     }
@@ -55,7 +57,7 @@ class TaskController {
   }
 
   public async deleteTask(task: Task) {
-    const token = TokenService.getToken();
+    const token = this.tokenRepo.get();
     if (!token) {
       return task;
     }
@@ -69,7 +71,7 @@ class TaskController {
   }
 
   public async addTask(task: Task) {
-    const token = TokenService.getToken();
+    const token = this.tokenRepo.get();
     if (!token) {
       throw Error("Вы не авторизорованы!");
     }

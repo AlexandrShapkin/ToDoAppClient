@@ -1,17 +1,19 @@
 import UserDataDto from "../dtos/UserDataDto";
 import UserDto from "../dtos/UserDto";
+import TokenRepo from "../interfaces/TokenRepo";
 import UserService from "../interfaces/UserService";
 
-import { saveToken } from "../service/TokenService";
 import { instanceOfResponseError } from "../types/ResponseError";
 
 class UserController {
   private apiUrl: string;
   private userService: UserService;
+  private tokenRepo: TokenRepo;
 
-  constructor(apiUrl: string, userService: UserService) {
+  constructor(apiUrl: string, userService: UserService, tokenRepo: TokenRepo) {
     this.apiUrl = apiUrl;
     this.userService = userService;
+    this.tokenRepo = tokenRepo;
   }
 
   public async login({
@@ -24,7 +26,7 @@ class UserController {
       throw Error(response.message);
     }
     if (response.accessToken) {
-      saveToken(response.accessToken);
+      this.tokenRepo.save(response.accessToken);
     }
     return response.userDto;
   }
@@ -39,7 +41,7 @@ class UserController {
       throw Error(response.message);
     }
     if (response.accessToken) {
-      saveToken(response.accessToken);
+      this.tokenRepo.save(response.accessToken);
     }
     return response.userDto;
   }
@@ -50,7 +52,7 @@ class UserController {
       console.log(response);
       throw Error(response.message);
     }
-    saveToken("");
+    this.tokenRepo.save("");
   }
   
   public async refresh(setUser: (newUser: UserDto) => void) {
@@ -60,7 +62,7 @@ class UserController {
       throw Error(response.message);
     }
     if (response.accessToken) {
-      saveToken(response.accessToken);
+      this.tokenRepo.save(response.accessToken);
       setUser(response.userDto);
     }
   }

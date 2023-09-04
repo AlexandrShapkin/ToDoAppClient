@@ -5,11 +5,12 @@ import UserDto from "../dtos/UserDto";
 import UserController from "../controllers/UserController";
 import { API_URL } from "../env/env";
 import FetchUserService from "../service/FetchUserService";
+import SessionStorageTokenRepo from "../repositories/SessionStorageTokenRepo";
 
 function useUser(): [UserContextValue] {
   const [username, _setUsername] = useState("");
   const [userId, _setUserId] = useState("");
-  const userController = new UserController(API_URL, FetchUserService);
+  const userController = new UserController(API_URL, FetchUserService, SessionStorageTokenRepo);
 
   const refreshUser = async () => {
     try {
