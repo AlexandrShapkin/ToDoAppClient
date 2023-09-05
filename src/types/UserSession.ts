@@ -4,4 +4,12 @@ type UserSession = {
     authorized: boolean;
 }
 
+export function newEmptyUserSession(): UserSession {
+    return {
+        username: "",
+        _id: "",
+        authorized: false,
+    }
+}
+
 export default UserSession;

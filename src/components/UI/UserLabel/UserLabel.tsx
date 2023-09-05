@@ -22,15 +22,15 @@ function UserLabel() {
         <div className="my-auto flex text-white font-bold">
           <PiUserCircle className="text-3xl md:text-4xl" />
           <div className="mx-2 text-xl md:text-2xl">
-            {userContext?.username ? (
-              <p>{userContext.username}</p>
+            {userContext?.getUsername() ? (
+              <p>{userContext.getUsername()}</p>
             ) : (
               <p>Авторизация</p>
             )}
           </div>
         </div>
       </div>
-      {userContext?.username ? (
+      {userContext?.getUsername() ? (
         <ProfileModal showModal={showModal} hideModal={onClickHandler} />
       ) : (
         <LoginModal showModal={showModal} hideModal={onClickHandler} />

@@ -2,9 +2,9 @@ import UserController from "../controllers/UserController";
 import UserData from "./UserData";
 
 type UserContextValue = {
-  username: string;
+  getUsername(): string | null;
   setUsername(newUsername: string): void;
-  userId: string;
+  getUserId(): string | null;
   setUserId(newUserId: string): void;
   setUser(newUser: UserData): void;
   userController: UserController;
