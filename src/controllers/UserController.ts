@@ -1,4 +1,5 @@
 import TokenRepo from "../interfaces/TokenRepo";
+import UserRepo from "../interfaces/UserRepo";
 import UserService from "../interfaces/UserService";
 
 import { instanceOfResponseError } from "../types/ResponseError";
@@ -9,11 +10,13 @@ class UserController {
   private apiUrl: string;
   private userService: UserService;
   private tokenRepo: TokenRepo;
+  private userRepo: UserRepo;
 
-  constructor(apiUrl: string, userService: UserService, tokenRepo: TokenRepo) {
+  constructor(apiUrl: string, userService: UserService, tokenRepo: TokenRepo, userRepo: UserRepo) {
     this.apiUrl = apiUrl;
     this.userService = userService;
     this.tokenRepo = tokenRepo;
+    this.userRepo = userRepo;
   }
 
   public async login({
@@ -27,6 +30,10 @@ class UserController {
     }
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
+      this.userRepo.save({
+        ...response.userDto,
+        authorized: true
+      });
     }
 
     return response.userDto;
@@ -43,6 +50,10 @@ class UserController {
     }
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
+      this.userRepo.save({
+        ...response.userDto,
+        authorized: true
+      });
     }
     return response.userDto;
   }
@@ -54,9 +65,10 @@ class UserController {
       throw Error(response.message);
     }
     this.tokenRepo.save("");
+    this.userRepo.setAuthorized(false);
   }
   
-  public async refresh(setUser: (newUser: UserData) => void) {
+  public async refresh() {
     const response = await this.userService.refresh(this.apiUrl);
     if (instanceOfResponseError(response)) {
       console.log(response);
@@ -64,7 +76,10 @@ class UserController {
     }
     if (response.accessToken) {
       this.tokenRepo.save(response.accessToken);
-      setUser(response.userDto);
+      this.userRepo.save({
+        ...response.userDto,
+        authorized: true
+      });
     }
   }
 }
