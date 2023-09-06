@@ -1,6 +1,6 @@
 type UserData = {
     username: string;
-    id: string;
+    _id: string;
 }
 
 export default UserData;

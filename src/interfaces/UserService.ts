@@ -1,18 +1,18 @@
-import AuthAccessDto from "../dtos/AuthAccessDto";
-import UserDataDto from "../dtos/UserDataDto";
+import AuthAccessData from "../types/AuthAccessData";
 import ResponseError from "../types/ResponseError";
+import UserAuthData from "../types/UserAuthData";
 
 interface UserService {
   login(
     url: string,
-    userDataDto: UserDataDto
-  ): Promise<AuthAccessDto | ResponseError>;
+    userDataDto: UserAuthData
+  ): Promise<AuthAccessData | ResponseError>;
   register(
     url: string,
-    userDataDto: UserDataDto
-  ): Promise<AuthAccessDto | ResponseError>;
+    userDataDto: UserAuthData
+  ): Promise<AuthAccessData | ResponseError>;
   logout(url: string): Promise<string | ResponseError>;
-  refresh(url: string): Promise<AuthAccessDto | ResponseError>;
+  refresh(url: string): Promise<AuthAccessData | ResponseError>;
 }
 
 export default UserService;

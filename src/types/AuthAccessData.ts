@@ -3,7 +3,7 @@ import UserData from "./UserData";
 type AuthAccessData = {
   accessToken: string;
   refreshToken: string;
-  userData: UserData;
+  userDto: UserData;
 };
 
 export default AuthAccessData;
