@@ -7,13 +7,13 @@ import UserData from "../types/UserData";
 import SessionStorageUserRepo from "../repositories/SessionStorageUserRepo";
 
 function useUser(): [UserContextValue] {
-  const userController = new UserController(API_URL, FetchUserService, SessionStorageTokenRepo);
+  const userController = new UserController(API_URL, FetchUserService, SessionStorageTokenRepo, SessionStorageUserRepo.getInstance());
 
   const userRepo = SessionStorageUserRepo.getInstance();
 
   const refreshUser = async () => {
     try {
-      await userController.refresh(userContextValue?.setUser);
+      await userController.refresh();
     } catch (error) {
       return;
     }
@@ -29,7 +29,7 @@ function useUser(): [UserContextValue] {
 
   const setUser = (newUser: UserData) => {
     setUsername(newUser.username);
-    setUserId(newUser.id);
+    setUserId(newUser._id);
   };
 
   const userContextValue: UserContextValue = {
