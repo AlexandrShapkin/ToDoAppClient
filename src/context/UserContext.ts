@@ -79,7 +79,7 @@ class UserContext {
       await this.userController.register({ username, password });
     } catch (error) {
       if (error instanceof Error) {
-        throw error;
+        throw Error(error.message);
       }
     }
   }

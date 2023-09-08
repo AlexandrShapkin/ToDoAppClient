@@ -1,9 +1,6 @@
 import { useState, FormEvent, useContext } from "react";
 
-import { ToastsContext, UserContext } from "../../../App";
-import SessionStorageTokenRepo from "../../../repositories/SessionStorageTokenRepo";
-import UserAuthData from "../../../types/UserAuthData";
-import UserData from "../../../types/UserData";
+import { ToastsContext, UserAppContext } from "../../../App";
 
 type Props = {
   changeToLogin: () => void;
@@ -11,7 +8,7 @@ type Props = {
 };
 
 function RegisterForm({ changeToLogin, hideModal }: Props) {
-  const userContext = useContext(UserContext);
+  const userContext = useContext(UserAppContext);
   const toastsContext = useContext(ToastsContext);
 
   const [login, setLogin] = useState("");
@@ -29,29 +26,25 @@ function RegisterForm({ changeToLogin, hideModal }: Props) {
       );
       return;
     }
-
-    const loginData: UserAuthData = {
-      username: login,
-      password: password,
-    };
-    let userData: UserData;
-    try {
-      userData = await userContext!.userController.register(loginData);
-    } catch (error) {
-      if (error instanceof Error) {
-        toastsContext?.showToast("Ошибка регистрации", error.message, "error");
+    userContext?.registerUser(login, password).then(
+      () => {
+        toastsContext?.showToast(
+          "Успешная регистрация",
+          "Вы успешно зарегистрировались!",
+          "ok"
+        );
+        hideModal();
+      },
+      (error) => {
+        if (error instanceof Error) {
+          toastsContext?.showToast(
+            "Ошибка регистрации",
+            error.message,
+            "error"
+          );
+        }
       }
-      return;
-    }
-    if (SessionStorageTokenRepo.get()) {
-      userContext?.setUser(userData);
-      toastsContext?.showToast(
-        "Успешная регистрации",
-        "Вы зарегистрированы",
-        "ok"
-      );
-      hideModal();
-    }
+    );
   };
 
   return (

@@ -2,19 +2,19 @@ import TaskElement from "../TaskElement/TaskElement";
 
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 
-import { UserContext, TasksContext } from "../../../App";
+import { UserAppContext, TasksContext } from "../../../App";
 
 import { AiOutlinePlus } from "react-icons/ai";
 import AddTaskModal from "../../AddTaskModal/AddTaskModal";
 import Task from "../../../types/Task";
 
 function TasksList() {
-  const userContext = useContext(UserContext);
+  const userContext = useContext(UserAppContext);
   const tasksContext = useContext(TasksContext);
 
   useEffect(() => {
     tasksContext?.fetchTasks();
-  }, [userContext?.username]);
+  }, [userContext?.isUserAuthorized()]);
 
   const [showModal, setShowModal] = useState(false);
   const showModalHandler = () => {

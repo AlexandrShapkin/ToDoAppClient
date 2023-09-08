@@ -8,8 +8,6 @@ import ToastContainer from "./components/ToastsContainer/ToastsContainer";
 import useToasts from "./hooks/useToasts";
 import useUser from "./hooks/useUser";
 
-import UserContextValue from "./types/UserContextValue";
-
 import TasksContextValue from "./types/TasksContextValue";
 import TasksController from "./controllers/TaskController";
 import Task from "./types/Task";
@@ -17,10 +15,11 @@ import Task from "./types/Task";
 import { API_URL } from "./env/env";
 import FetchTasksService from "./service/FetchTasksService";
 import SessionStorageTokenRepo from "./repositories/SessionStorageTokenRepo";
+import UserContext from "./context/UserContext";
 
 export const ToastsContext = createContext<ToastsContextValue | null>(null);
 
-export const UserContext = createContext<UserContextValue | null>(null);
+export const UserAppContext = createContext<UserContext | null>(null);
 
 export const TasksContext = createContext<TasksContextValue | null>(null);
 
@@ -29,14 +28,22 @@ function App() {
   const [toastsContextValue] = useToasts();
 
   useEffect(() => {
-    userContextValue.refreshUser();
+    userContextValue.refreshUser().catch((error) => {
+      if (error instanceof Error) {
+        toastsContextValue.showToast("Внимание!", error.message, "alert");
+      }
+    });
   }, []);
 
-  const taskController = new TasksController(API_URL, FetchTasksService, SessionStorageTokenRepo);
+  const taskController = new TasksController(
+    API_URL,
+    FetchTasksService,
+    SessionStorageTokenRepo
+  );
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const fetchTasks = async () => {
-    if (userContextValue?.username == "") {
+    if (!userContextValue?.isUserAuthorized()) {
       setTasks([]);
       return;
     }
@@ -64,7 +71,7 @@ function App() {
     }
 
     setTasks([...tasks, ...addedTasks]);
-  }
+  };
 
   const setTaskDone = async (task: Task) => {
     let updatedTask: Task;
@@ -150,7 +157,7 @@ function App() {
 
   return (
     <>
-      <UserContext.Provider value={userContextValue}>
+      <UserAppContext.Provider value={userContextValue}>
         <ToastsContext.Provider value={toastsContextValue}>
           <TasksContext.Provider
             value={{
@@ -168,7 +175,7 @@ function App() {
             <ToastContainer />
           </TasksContext.Provider>
         </ToastsContext.Provider>
-      </UserContext.Provider>
+      </UserAppContext.Provider>
     </>
   );
 }

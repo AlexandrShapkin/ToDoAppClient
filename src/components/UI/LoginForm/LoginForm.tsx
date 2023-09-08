@@ -1,9 +1,6 @@
 import { useState, FormEvent, useContext } from "react";
 
-import { ToastsContext, UserContext } from "../../../App";
-import SessionStorageTokenRepo from "../../../repositories/SessionStorageTokenRepo";
-import UserAuthData from "../../../types/UserAuthData";
-import UserData from "../../../types/UserData";
+import { ToastsContext, UserAppContext } from "../../../App";
 
 type Props = {
   changeToRegister: () => void;
@@ -12,35 +9,32 @@ type Props = {
 
 function LoginForm({ changeToRegister, hideModal }: Props) {
   const toastsContext = useContext(ToastsContext);
-  const userContext = useContext(UserContext);
+  const userContext = useContext(UserAppContext);
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
   const loginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const loginData: UserAuthData = {
-      username: login,
-      password: password,
-    };
-    let userData: UserData;
-    try {
-      userData = await userContext!.userController.login(loginData);
-    } catch (error) {
-      if (error instanceof Error) {
-        toastsContext?.showToast("Ошибка авторизации", error.message, "error");
+    userContext?.loginUser(login, password).then(
+      () => {
+        toastsContext?.showToast(
+          "Успешная авторизция",
+          "Вы успешно вошли!",
+          "ok"
+        );
+        hideModal();
+      },
+      (error) => {
+        if (error instanceof Error) {
+          toastsContext?.showToast(
+            "Ошибка авторизации",
+            error.message,
+            "error"
+          );
+        }
       }
-      return;
-    }
-    if (SessionStorageTokenRepo.get()) {
-      userContext?.setUser(userData);
-      toastsContext?.showToast(
-        "Успешная авторизция",
-        "Вы успешно вошли!",
-        "ok"
-      );
-      hideModal();
-    }
+    );
   };
 
   return (
