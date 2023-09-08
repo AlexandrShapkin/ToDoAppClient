@@ -125,11 +125,6 @@ function SideMenu({ onClick, showMenu }: Props) {
                     Выгрузить задачи
                   </button>
                 </li>
-                <li>
-                  <button className="ease-in-out delay-150 hover:translate-x-[-0.2rem]">
-                    Список задач
-                  </button>
-                </li>
               </ul>
             </div>
           </div>
